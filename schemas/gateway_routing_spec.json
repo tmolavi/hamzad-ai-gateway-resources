@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AIGatewayRoutingSpecification",
+  "type": "object",
+  "required": ["version", "service_name", "routes"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "enum": ["1.0", "2026.1"]
+    },
+    "service_name": {
+      "type": "string"
+    },
+    "routes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["task_type", "primary"],
+        "properties": {
+          "task_type": {
+            "type": "string"
+          },
+          "timeout_ms": {
+            "type": "integer",
+            "minimum": 100
+          },
+          "primary": {
+            "type": "object",
+            "required": ["provider", "model"],
+            "properties": {
+              "provider": { "type": "string" },
+              "model": { "type": "string" },
+              "max_tokens": { "type": "integer" },
+              "temperature": { "type": "number", "minimum": 0.0, "maximum": 2.0 }
+            }
+          },
+          "fallback": {
+            "type": "object",
+            "required": ["provider", "model"],
+            "properties": {
+              "provider": { "type": "string" },
+              "model": { "type": "string" },
+              "condition": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
